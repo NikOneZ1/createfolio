@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Portfolio</title>
+</head>
+<body>
+    <h1>{{ portfolio.header }}</h1>
+    <br>
+    <p>{{ portfolio.about_me }}</p>
+
+    <h2>Projects</h2>
+    {% for project in projects %}
+        <img src="{{project.image.url}}">
+        {{ project.name}}
+        {{ project.description }}
+    {% endfor %}
+
+    <h2>Contacts</h2>
+    {% for contact in contacts %}
+        <img src="{{contact.logo.url}}">
+        {{ contact.social_network}}
+        {{ contact.link }}
+    {% endfor %}
+
+</body>
+</html>
