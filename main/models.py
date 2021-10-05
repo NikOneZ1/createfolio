@@ -1,0 +1,23 @@
+from django.db import models
+from django.contrib.auth.models import User
+
+
+class Portfolio(models.Model):
+    header = models.CharField(max_length=50)
+    about_me = models.TextField()
+    link = models.SlugField(max_length=30)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+
+
+class Project(models.Model):
+    name = models.CharField(max_length=60)
+    description = models.TextField()
+    image = models.ImageField()
+    portfolio = models.ForeignKey(Portfolio, on_delete=models.CASCADE)
+
+
+class Contact(models.Model):
+    social_network = models.CharField(max_length=50)
+    link = models.CharField(max_length=60)
+    logo = models.ImageField()
+    portfolio = models.ForeignKey(Portfolio, on_delete=models.CASCADE)
