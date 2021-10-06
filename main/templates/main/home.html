@@ -3,8 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <title>Home</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-uWxY/CJNBR+1zjPWmfnSnVxwRheevXITnMqoEIeG1LJrdI0GlVs/9cVSyPYXdcSF" crossorigin="anonymous">
 </head>
-<body>
-    <h1>Home page</h1>
+<body class="bg-dark text-white">
+    <div class="container">
+        <header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
+          <a href="{% url 'home' %}" class="d-flex align-items-center col-md-3 mb-2 mb-md-0 text-light text-decoration-none" mb-checked="1" data-tip="">
+            <h2>CREATEFOLIO</h2>
+          </a>
+
+          <div class="col-md-3 text-end">
+              {% if request.user.is_authenticated %}
+                <button type="button" class="btn btn-outline-light me-2">Profile</button>
+                <button type="button" class="btn btn-outline-light">Logout</button>
+              {%else%}
+                <button type="button" class="btn btn-outline-light me-2">Login</button>
+                <button type="button" class="btn btn-outline-light">Sign-up</button>
+              {% endif %}
+          </div>
+        </header>
+    </div>
 </body>
 </html>
