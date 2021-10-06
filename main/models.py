@@ -13,6 +13,7 @@ class Project(models.Model):
     name = models.CharField(max_length=60)
     description = models.TextField()
     image = models.ImageField()
+    project_link = models.URLField(default='/')
     portfolio = models.ForeignKey(Portfolio, on_delete=models.CASCADE)
 
 
