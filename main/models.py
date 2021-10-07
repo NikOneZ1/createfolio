@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 
 
 class Portfolio(models.Model):
+    image = models.ImageField()
     header = models.CharField(max_length=50)
     about_me = models.TextField()
     link = models.SlugField(max_length=30)
