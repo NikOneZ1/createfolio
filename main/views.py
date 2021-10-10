@@ -3,6 +3,8 @@ from .models import Portfolio, Project, Contact
 from django.contrib import messages
 from .forms import UserRegistration
 from django.contrib.auth.decorators import login_required
+from django.views.generic import CreateView, UpdateView, DeleteView
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 
 def portfolio(request, portfolio_name):
@@ -50,3 +52,21 @@ def change_portfolio(request, slug):
         'contacts': Contact.objects.filter(portfolio=Portfolio.objects.get(link=slug))
     }
     return render(request, 'main/change_portfolio.html', data)
+
+
+class UpdateChangeMe(LoginRequiredMixin, UpdateView):
+    model = Portfolio
+    fields = ['image', 'header', 'about_me', 'link']
+    template_name = 'main/change_about_me.html'
+
+    def test_func(self):
+        saving = self.get_object()
+        if self.request.user == saving.owner:
+            return True
+        else:
+            return False
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        self.success_url = '/change_portfolio/' + form.instance.link + '/'
+        return super().form_valid(form)
