@@ -145,3 +145,15 @@ class CreateContact(LoginRequiredMixin, UserPassesTestMixin, CreateView):
         form.instance.portfolio = Portfolio.objects.get(link=self.kwargs['slug'])
         self.success_url = '/change_portfolio/' + self.kwargs['slug'] + '/'
         return super().form_valid(form)
+
+
+class DeleteProject(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+    model = Project
+    template_name = 'main/delete_project.html'
+
+    def test_func(self):
+        project = self.get_object()
+        self.success_url = '/change_portfolio/' + project.portfolio.link + '/'
+        if self.request.user == project.portfolio.user:
+            return True
+        return False
