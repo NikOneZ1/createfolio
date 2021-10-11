@@ -127,3 +127,21 @@ class CreateProject(LoginRequiredMixin, UserPassesTestMixin, CreateView):
         form.instance.portfolio = Portfolio.objects.get(link=self.kwargs['slug'])
         self.success_url = '/change_portfolio/' + self.kwargs['slug'] + '/'
         return super().form_valid(form)
+
+
+class CreateContact(LoginRequiredMixin, UserPassesTestMixin, CreateView):
+    model = Contact
+    fields = ['logo', 'social_network', 'link']
+    template_name = 'main/create_contact.html'
+
+    def test_func(self):
+        portfolio = Portfolio.objects.get(link=self.kwargs['slug'])
+        if self.request.user == portfolio.user:
+            return True
+        else:
+            return False
+
+    def form_valid(self, form):
+        form.instance.portfolio = Portfolio.objects.get(link=self.kwargs['slug'])
+        self.success_url = '/change_portfolio/' + self.kwargs['slug'] + '/'
+        return super().form_valid(form)
