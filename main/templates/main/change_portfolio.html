@@ -119,7 +119,7 @@
                 <br/>
                 <div class="row">
                     <div class="mx-auto d-block col-xs-10 col-sm-10 col-md-10 col-lg-8 text-center">
-                        <a class="text-cecnter" href="#"><button class="btn btn-outline-light">Change</button></a>
+                        <a class="text-cecnter" href="{% url 'change_project' project.pk %}"><button class="btn btn-outline-light">Change</button></a>
                     </div>
                 </div>
             </div>
@@ -156,7 +156,7 @@
                         <a class="link-light" href="{{ contact.link }}"><p class="h4">{{ contact.social_network }}</p></a>
                     </div>
                     <div class="col">
-                        <a class="" href="#"><button class="btn btn-outline-light">Change</button></a>
+                        <a class="" href="{% url 'change_contact' contact.pk %}"><button class="btn btn-outline-light">Change</button></a>
                     </div>
                 </div>
             </div>

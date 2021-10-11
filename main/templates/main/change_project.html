@@ -1,7 +1,7 @@
 {% extends 'main/home.html' %}
 {% load crispy_forms_tags %}
 {% block title_block %}
-<title>Change about me</title>
+<title>Change project</title>
 {% endblock title_block %}
 {% block main_section %}
     <div class="container">
@@ -9,7 +9,7 @@
             <div class="col-lg-1 col-md-1 col-sm-0"></div>
             <div class="col-lg-9 col-md-9 col-sm-12">
                 <div class="form-section">
-                  <h2 class="text-center">Change</h2>
+                  <h2 class="text-center">Change project</h2>
                   <form method="post" enctype="multipart/form-data">
                     {% csrf_token %}
                     {{ form|crispy }}

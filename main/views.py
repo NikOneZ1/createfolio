@@ -4,7 +4,8 @@ from django.contrib import messages
 from .forms import UserRegistration
 from django.contrib.auth.decorators import login_required
 from django.views.generic import CreateView, UpdateView, DeleteView
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.http import HttpResponseForbidden
 
 
 def portfolio(request, portfolio_name):
@@ -46,6 +47,10 @@ def create_portfolio(request):
 
 @login_required
 def change_portfolio(request, slug):
+
+    if Portfolio.objects.get(link=slug).user != request.user:
+        return HttpResponseForbidden()
+
     data = {
         'portfolio': Portfolio.objects.get(link=slug),
         'projects': Project.objects.filter(portfolio=Portfolio.objects.get(link=slug)),
@@ -54,14 +59,14 @@ def change_portfolio(request, slug):
     return render(request, 'main/change_portfolio.html', data)
 
 
-class UpdateChangeMe(LoginRequiredMixin, UpdateView):
+class UpdateChangeMe(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Portfolio
     fields = ['image', 'header', 'about_me', 'link']
     template_name = 'main/change_about_me.html'
 
     def test_func(self):
-        saving = self.get_object()
-        if self.request.user == saving.owner:
+        obj = self.get_object()
+        if self.request.user == obj.user:
             return True
         else:
             return False
@@ -69,4 +74,40 @@ class UpdateChangeMe(LoginRequiredMixin, UpdateView):
     def form_valid(self, form):
         form.instance.user = self.request.user
         self.success_url = '/change_portfolio/' + form.instance.link + '/'
+        return super().form_valid(form)
+
+
+class UpdateProject(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+    model = Project
+    fields = ['image', 'name', 'description', 'project_link']
+    template_name = 'main/change_project.html'
+
+    def test_func(self):
+        obj = self.get_object()
+        if self.request.user == obj.portfolio.user:
+            return True
+        else:
+            return False
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        self.success_url = '/change_portfolio/' + form.instance.portfolio.link + '/'
+        return super().form_valid(form)
+
+
+class UpdateContact(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+    model = Contact
+    fields = ['logo', 'social_network', 'link']
+    template_name = 'main/change_contact.html'
+
+    def test_func(self):
+        obj = self.get_object()
+        if self.request.user == obj.portfolio.user:
+            return True
+        else:
+            return False
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        self.success_url = '/change_contact/' + form.instance.portfolio.link + '/'
         return super().form_valid(form)
