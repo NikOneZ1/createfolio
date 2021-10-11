@@ -90,7 +90,6 @@ class UpdateProject(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
             return False
 
     def form_valid(self, form):
-        form.instance.user = self.request.user
         self.success_url = '/change_portfolio/' + form.instance.portfolio.link + '/'
         return super().form_valid(form)
 
@@ -108,6 +107,23 @@ class UpdateContact(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
             return False
 
     def form_valid(self, form):
-        form.instance.user = self.request.user
-        self.success_url = '/change_contact/' + form.instance.portfolio.link + '/'
+        self.success_url = '/change_portfolio/' + form.instance.portfolio.link + '/'
+        return super().form_valid(form)
+
+
+class CreateProject(LoginRequiredMixin, UserPassesTestMixin, CreateView):
+    model = Project
+    fields = ['image', 'name', 'description', 'project_link']
+    template_name = 'main/create_project.html'
+
+    def test_func(self):
+        portfolio = Portfolio.objects.get(link=self.kwargs['slug'])
+        if self.request.user == portfolio.user:
+            return True
+        else:
+            return False
+
+    def form_valid(self, form):
+        form.instance.portfolio = Portfolio.objects.get(link=self.kwargs['slug'])
+        self.success_url = '/change_portfolio/' + self.kwargs['slug'] + '/'
         return super().form_valid(form)
