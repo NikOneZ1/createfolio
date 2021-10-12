@@ -1,7 +1,7 @@
 {% extends 'main/home.html' %}
 {% load crispy_forms_tags %}
 {% block title_block %}
-<title>Create contact</title>
+<title>{{ title }}</title>
 {% endblock title_block %}
 {% block main_section %}
     <div class="container">
@@ -9,11 +9,11 @@
             <div class="col-lg-1 col-md-1 col-sm-0"></div>
             <div class="col-lg-9 col-md-9 col-sm-12">
                 <div class="form-section">
-                  <h2 class="text-center">Create contact</h2>
+                  <h2 class="text-center">{{ header }}</h2>
                   <form method="post" enctype="multipart/form-data">
                     {% csrf_token %}
                     {{ form|crispy }}
-                    <button type="submit" name="button" class="btn btn-outline-light mt-3">Create</button>
+                    <button type="submit" name="button" class="btn btn-outline-light mt-3">{{ button_text }}</button>
                   </form>
                 </div>
             </div>
