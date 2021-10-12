@@ -169,3 +169,17 @@ class DeleteContact(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
         if self.request.user == contact.portfolio.user:
             return True
         return False
+
+
+class DeletePortfolio(LoginRequiredMixin, DeleteView):
+    model = Portfolio
+    template_name = 'main/delete_portfolio.html'
+    success_url = '/profile/'
+
+
+@login_required
+def profile(request):
+    data = {
+        'portfolios': Portfolio.objects.filter(user=request.user)
+    }
+    return render(request, 'main/profile.html', data)

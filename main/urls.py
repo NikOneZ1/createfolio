@@ -16,5 +16,7 @@ urlpatterns = [
     path('create_project/<slug>/', views.CreateProject.as_view(), name='create_project'),
     path('create_contact/<slug>/', views.CreateContact.as_view(), name='create_contact'),
     path('delete_project/<int:pk>/', views.DeleteProject.as_view(), name='delete_project'),
-    path('delete_contact/<int:pk>/', views.DeleteContact.as_view(), name='delete_contact')
+    path('delete_contact/<int:pk>/', views.DeleteContact.as_view(), name='delete_contact'),
+    path('delete_portfolio/<int:pk>/', views.DeletePortfolio.as_view(), name='delete_portfolio'),
+    path('profile/', views.profile, name='profile')
 ]
