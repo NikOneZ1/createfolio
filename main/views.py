@@ -157,3 +157,15 @@ class DeleteProject(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
         if self.request.user == project.portfolio.user:
             return True
         return False
+
+
+class DeleteContact(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+    model = Contact
+    template_name = 'main/delete_contact.html'
+
+    def test_func(self):
+        contact = self.get_object()
+        self.success_url = '/change_portfolio/' + contact.portfolio.link + '/'
+        if self.request.user == contact.portfolio.user:
+            return True
+        return False
