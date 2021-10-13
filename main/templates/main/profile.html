@@ -15,7 +15,7 @@
                 <div class="row">
                     {% if portfolio.image %}
                         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6">
-                            <a class="link-light link-unstyled" href="{% url 'change_portfolio' portfolio.link %}"><img style="max-width: 100%;" src="{{ portfolio.image.url }}"></a>
+                            <a class="link-light link-unstyled" href="{% url 'portfolio' portfolio.link %}"><img style="max-width: 100%;" src="{{ portfolio.image.url }}"></a>
                         </div>
                     {% endif %}
                     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6 mx-auto d-block">
