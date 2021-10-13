@@ -41,7 +41,7 @@ def register(request):
 @login_required
 def create_portfolio(request):
     obj = Portfolio.objects.create(user=request.user)
-    return redirect(change_portfolio, slug=obj.link)
+    return redirect('change_about_me', pk=obj.pk)
 
 
 @login_required
@@ -58,7 +58,7 @@ def change_portfolio(request, slug):
     return render(request, 'main/change_portfolio.html', data)
 
 
-class UpdateChangeMe(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+class UpdateAboutMe(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Portfolio
     fields = ['image', 'header', 'about_me', 'link']
     template_name = 'main/change_create_template.html'
