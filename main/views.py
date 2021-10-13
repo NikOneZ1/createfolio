@@ -38,15 +38,20 @@ def register(request):
     return render(request, 'main/registration.html', {'form': form, 'title': 'Registration'})
 
 
+# function for creating a portfolio, it creates portfolio with default values
+# and redirects to change_about_me page
 @login_required
 def create_portfolio(request):
     obj = Portfolio.objects.create(user=request.user)
     return redirect('change_about_me', pk=obj.pk)
 
 
+# function for change portfolio. It shows already created project and contacts
+# that can be changed, and have links for creating new projects and new contacts
 @login_required
 def change_portfolio(request, slug):
 
+    # checking if the user matches the portfolio owner
     if Portfolio.objects.get(link=slug).user != request.user:
         return HttpResponseForbidden()
 
@@ -58,11 +63,13 @@ def change_portfolio(request, slug):
     return render(request, 'main/change_portfolio.html', data)
 
 
+# class view for changing about_me part of portfolio information
 class UpdateAboutMe(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Portfolio
     fields = ['image', 'header', 'about_me', 'link']
     template_name = 'main/change_create_template.html'
 
+    # checking if the user matches the portfolio owner
     def test_func(self):
         obj = self.get_object()
         if self.request.user == obj.user:
@@ -75,6 +82,7 @@ class UpdateAboutMe(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
         self.success_url = '/change_portfolio/' + form.instance.link + '/'
         return super().form_valid(form)
 
+    # context for using one template for all update views
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Change about me'
@@ -83,11 +91,13 @@ class UpdateAboutMe(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
         return context
 
 
+# class view for changing project information
 class UpdateProject(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Project
     fields = ['image', 'name', 'description', 'project_link']
     template_name = 'main/change_create_template.html'
 
+    # checking if the user matches the portfolio owner
     def test_func(self):
         obj = self.get_object()
         if self.request.user == obj.portfolio.user:
@@ -99,6 +109,7 @@ class UpdateProject(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
         self.success_url = '/change_portfolio/' + form.instance.portfolio.link + '/'
         return super().form_valid(form)
 
+    # context for using one template for all update views
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Change project'
@@ -107,11 +118,13 @@ class UpdateProject(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
         return context
 
 
+# class view for changing contact information
 class UpdateContact(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Contact
     fields = ['logo', 'social_network', 'link']
     template_name = 'main/change_create_template.html'
 
+    # checking if the user matches the portfolio owner
     def test_func(self):
         obj = self.get_object()
         if self.request.user == obj.portfolio.user:
@@ -123,6 +136,7 @@ class UpdateContact(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
         self.success_url = '/change_portfolio/' + form.instance.portfolio.link + '/'
         return super().form_valid(form)
 
+    # context for using one template for all update views
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Change contact'
@@ -131,11 +145,13 @@ class UpdateContact(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
         return context
 
 
+# class view for creating project
 class CreateProject(LoginRequiredMixin, UserPassesTestMixin, CreateView):
     model = Project
     fields = ['image', 'name', 'description', 'project_link']
     template_name = 'main/change_create_template.html'
 
+    # checking if the user matches the portfolio owner
     def test_func(self):
         portfolio = Portfolio.objects.get(link=self.kwargs['slug'])
         if self.request.user == portfolio.user:
@@ -148,6 +164,7 @@ class CreateProject(LoginRequiredMixin, UserPassesTestMixin, CreateView):
         self.success_url = '/change_portfolio/' + self.kwargs['slug'] + '/'
         return super().form_valid(form)
 
+    # context for using one template for all create views
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Create project'
@@ -156,11 +173,13 @@ class CreateProject(LoginRequiredMixin, UserPassesTestMixin, CreateView):
         return context
 
 
+# class view for creating project
 class CreateContact(LoginRequiredMixin, UserPassesTestMixin, CreateView):
     model = Contact
     fields = ['logo', 'social_network', 'link']
     template_name = 'main/change_create_template.html'
 
+    # checking if the user matches the portfolio owner
     def test_func(self):
         portfolio = Portfolio.objects.get(link=self.kwargs['slug'])
         if self.request.user == portfolio.user:
@@ -173,6 +192,7 @@ class CreateContact(LoginRequiredMixin, UserPassesTestMixin, CreateView):
         self.success_url = '/change_portfolio/' + self.kwargs['slug'] + '/'
         return super().form_valid(form)
 
+    # context for using one template for all create views
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Create contact'
@@ -181,10 +201,12 @@ class CreateContact(LoginRequiredMixin, UserPassesTestMixin, CreateView):
         return context
 
 
+# class view for deleting project
 class DeleteProject(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Project
     template_name = 'main/delete_template.html'
 
+    # checking if the user matches the portfolio owner
     def test_func(self):
         project = self.get_object()
         self.success_url = '/change_portfolio/' + project.portfolio.link + '/'
@@ -192,6 +214,7 @@ class DeleteProject(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
             return True
         return False
 
+    # context for using one template for all delete views
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         project = self.get_object()
@@ -201,10 +224,12 @@ class DeleteProject(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
         return context
 
 
+# class view for deleting contact
 class DeleteContact(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Contact
     template_name = 'main/delete_template.html'
 
+    # checking if the user matches the portfolio owner
     def test_func(self):
         contact = self.get_object()
         self.success_url = '/change_portfolio/' + contact.portfolio.link + '/'
@@ -212,6 +237,7 @@ class DeleteContact(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
             return True
         return False
 
+    # context for using one template for all delete views
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         project = self.get_object()
@@ -221,11 +247,13 @@ class DeleteContact(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
         return context
 
 
+# class view for deleting portfolio
 class DeletePortfolio(LoginRequiredMixin, DeleteView):
     model = Portfolio
     template_name = 'main/delete_template.html'
     success_url = '/profile/'
 
+    # context for using one template for all delete views
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Delete portfolio'
@@ -234,6 +262,7 @@ class DeletePortfolio(LoginRequiredMixin, DeleteView):
         return context
 
 
+# view that shows all portfolios created by the user
 @login_required
 def profile(request):
     data = {
