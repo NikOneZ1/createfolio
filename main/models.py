@@ -7,7 +7,7 @@ class Portfolio(models.Model):
     image = models.ImageField(null=True)
     header = models.CharField(max_length=50, default='Header')
     about_me = models.TextField(default='about me')
-    link = models.SlugField(max_length=30, default=uuid.uuid4, unique=True)
+    link = models.SlugField(default=uuid.uuid4, unique=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 
 
