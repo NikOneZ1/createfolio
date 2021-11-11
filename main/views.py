@@ -6,6 +6,33 @@ from django.contrib.auth.decorators import login_required
 from django.views.generic import CreateView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.http import HttpResponseForbidden
+from rest_framework.response import Response
+from rest_framework.views import APIView
+from .serializers import PortfolioSerializer
+
+
+class PortfolioDetailView(APIView):
+    def get(self, request, slug):
+        portfolio = Portfolio.objects.get(link=slug)
+        print(portfolio.image.url)
+        serializer = PortfolioSerializer(portfolio)
+        return Response(serializer.data)
+
+
+class ProjectsDetailView(APIView):
+    def get(self, request, slug):
+        portfolio = Portfolio.objects.get(link=slug)
+        print(portfolio.image.url)
+        serializer = PortfolioSerializer(portfolio)
+        return Response(serializer.data)
+
+
+class PortfolioDetailView(APIView):
+    def get(self, request, slug):
+        portfolio = Portfolio.objects.get(link=slug)
+        print(portfolio.image.url)
+        serializer = PortfolioSerializer(portfolio)
+        return Response(serializer.data)
 
 
 def portfolio(request, portfolio_name):

@@ -18,5 +18,6 @@ urlpatterns = [
     path('delete_project/<int:pk>/', views.DeleteProject.as_view(), name='delete_project'),
     path('delete_contact/<int:pk>/', views.DeleteContact.as_view(), name='delete_contact'),
     path('delete_portfolio/<int:pk>/', views.DeletePortfolio.as_view(), name='delete_portfolio'),
-    path('profile/', views.profile, name='profile')
+    path('profile/', views.profile, name='profile'),
+    path('api/<slug>', views.PortfolioDetailView.as_view(), name='api_portfolio')
 ]

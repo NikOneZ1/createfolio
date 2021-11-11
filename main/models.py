@@ -16,11 +16,11 @@ class Project(models.Model):
     description = models.TextField()
     image = models.ImageField()
     project_link = models.URLField(default='/')
-    portfolio = models.ForeignKey(Portfolio, on_delete=models.CASCADE)
+    portfolio = models.ForeignKey(Portfolio, on_delete=models.CASCADE, related_name='projects')
 
 
 class Contact(models.Model):
     social_network = models.CharField(max_length=50)
     link = models.CharField(max_length=60)
     logo = models.ImageField()
-    portfolio = models.ForeignKey(Portfolio, on_delete=models.CASCADE)
+    portfolio = models.ForeignKey(Portfolio, on_delete=models.CASCADE, related_name='contacts')
