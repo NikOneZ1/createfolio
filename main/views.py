@@ -8,31 +8,22 @@ from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.http import HttpResponseForbidden
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from rest_framework import generics
 from .serializers import PortfolioSerializer
 
 
-class PortfolioDetailView(APIView):
-    def get(self, request, slug):
-        portfolio = Portfolio.objects.get(link=slug)
-        print(portfolio.image.url)
-        serializer = PortfolioSerializer(portfolio)
-        return Response(serializer.data)
+class PortfolioDetailView(generics.RetrieveAPIView):
+    serializer_class = PortfolioSerializer
+    lookup_field = 'link'
+    queryset = Portfolio.objects.all()
 
 
-class ProjectsDetailView(APIView):
-    def get(self, request, slug):
-        portfolio = Portfolio.objects.get(link=slug)
-        print(portfolio.image.url)
-        serializer = PortfolioSerializer(portfolio)
-        return Response(serializer.data)
+class UserPortfolioListView(generics.ListAPIView):
+    serializer_class = PortfolioSerializer
 
-
-class PortfolioDetailView(APIView):
-    def get(self, request, slug):
-        portfolio = Portfolio.objects.get(link=slug)
-        print(portfolio.image.url)
-        serializer = PortfolioSerializer(portfolio)
-        return Response(serializer.data)
+    def get_queryset(self):
+        user = self.request.user
+        return Portfolio.objects.filter(user=user.pk)
 
 
 def portfolio(request, portfolio_name):

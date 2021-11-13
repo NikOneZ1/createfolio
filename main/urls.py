@@ -1,4 +1,4 @@
-from django.urls import path
+from django.urls import path, include
 from . import views
 from django.contrib.auth import views as auth_views
 
@@ -19,5 +19,8 @@ urlpatterns = [
     path('delete_contact/<int:pk>/', views.DeleteContact.as_view(), name='delete_contact'),
     path('delete_portfolio/<int:pk>/', views.DeletePortfolio.as_view(), name='delete_portfolio'),
     path('profile/', views.profile, name='profile'),
-    path('api/<slug>', views.PortfolioDetailView.as_view(), name='api_portfolio')
+    path('api/portfolio/<link>', views.PortfolioDetailView.as_view(), name='api_portfolio'),
+    path('api/user_portfolio', views.UserPortfolioListView.as_view(), name='api_user_portfolio'),
+    path('auth/', include('djoser.urls')),
+    path('auth/', include('djoser.urls.jwt')),
 ]

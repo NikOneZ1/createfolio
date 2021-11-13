@@ -10,6 +10,9 @@ class Portfolio(models.Model):
     link = models.SlugField(default=uuid.uuid4, unique=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 
+    def __str__(self):
+        return self.header
+
 
 class Project(models.Model):
     name = models.CharField(max_length=60)
@@ -18,9 +21,15 @@ class Project(models.Model):
     project_link = models.URLField(default='/')
     portfolio = models.ForeignKey(Portfolio, on_delete=models.CASCADE, related_name='projects')
 
+    def __str__(self):
+        return self.name
+
 
 class Contact(models.Model):
     social_network = models.CharField(max_length=50)
     link = models.CharField(max_length=60)
     logo = models.ImageField()
     portfolio = models.ForeignKey(Portfolio, on_delete=models.CASCADE, related_name='contacts')
+
+    def __str__(self):
+        return self.social_network
