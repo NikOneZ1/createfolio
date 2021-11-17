@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'cloudinary',
     'rest_framework',
     'djoser',
+    'drf_yasg',
     'rest_framework_simplejwt',
 ]
 

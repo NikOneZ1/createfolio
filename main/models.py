@@ -17,7 +17,7 @@ class Portfolio(models.Model):
 class Project(models.Model):
     name = models.CharField(max_length=60)
     description = models.TextField()
-    image = models.ImageField()
+    image = models.ImageField(null=True)
     project_link = models.URLField(default='/')
     portfolio = models.ForeignKey(Portfolio, on_delete=models.CASCADE, related_name='projects')
 
@@ -27,8 +27,8 @@ class Project(models.Model):
 
 class Contact(models.Model):
     social_network = models.CharField(max_length=50)
-    link = models.CharField(max_length=60)
-    logo = models.ImageField()
+    link = models.URLField()
+    logo = models.ImageField(null=True)
     portfolio = models.ForeignKey(Portfolio, on_delete=models.CASCADE, related_name='contacts')
 
     def __str__(self):
