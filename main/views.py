@@ -1,15 +1,15 @@
-from django.shortcuts import render, redirect
-from .models import Portfolio, Project, Contact
-from django.contrib import messages
+from .serializers import PortfolioSerializer, ProjectSerializer, ContactSerializer
+from .permissions import PortfolioUserPermission, ProjectContactUserPermission
 from .forms import UserRegistration
+from .models import Portfolio, Project, Contact
+from django.shortcuts import render, redirect
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.views.generic import CreateView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.http import HttpResponseForbidden
 from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
 from rest_framework import generics
-from .serializers import PortfolioSerializer, ProjectSerializer, ContactSerializer
-from .permissions import PortfolioUserPermission, ProjectContactUserPermission
 
 
 class UserPortfolioListView(generics.ListAPIView):
