@@ -76,7 +76,9 @@
                 <hr/>
                 <div class="row">
                     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6">
+                        {% if project.image %}
                         <a class="link-light link-unstyled" href="{{ project.project_link }}"><img style="max-width: 100%;" src="{{ project.image.url }}"></a>
+                        {% endif %}
                     </div>
                     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6">
                         <a class="link-light link-unstyled" href="{{ project.project_link }}"><h1 class="display-6 text-center">{{project.name}}</h1></a>
@@ -103,7 +105,9 @@
             <div class="mx-auto d-block col-xs-10 col-sm-10 col-md-10 col-lg-8">
                 <div class="row">
                     <div class="col-1">
+                        {% if contact.logo %}
                         <img style="max-width: 75%;" src="{{ contact.logo.url }}">
+                        {% endif %}
                     </div>
                     <div class="col-3">
                         <a class="link-light" href="{{ contact.link }}"><p class="h4">{{ contact.social_network }}</p></a>
