@@ -31,9 +31,6 @@ ALLOWED_HOSTS = ['createfolio.herokuapp.com', '127.0.0.1', 'localhost']
 # Application definition
 
 INSTALLED_APPS = [
-    'cloudinary_storage',
-    'django_cleanup',
-    'crispy_forms',
     'main.apps.MainConfig',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -42,6 +39,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'cloudinary',
+    'cloudinary_storage',
+    'django_cleanup',
+    'crispy_forms',
     'rest_framework',
     'djoser',
     'drf_yasg',
