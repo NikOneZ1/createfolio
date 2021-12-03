@@ -226,3 +226,42 @@ class YourTestClass(TestCase):
     def test_get_user_portfolio_without_auth(self):
         resp = self.client.get(reverse('api_user_portfolio'))
         self.assertEqual(resp.status_code, status.HTTP_401_UNAUTHORIZED)
+
+    def test_patch_portfolio_without_auth(self):
+        data = {
+            "id": 1,
+            "header": "Updated portfolio",
+            "about_me": "Updated portfolio about me.",
+            "link": "created_portfolio2_upd",
+            "projects": [
+                {
+                    "id": 1,
+                    "name": "Updated project 1",
+                    "description": "Description of updated project 1",
+                    "project_link": "https://www.google.com"
+                },
+                {
+                    "id": 2,
+                    "name": "Updated project 2_upd",
+                    "description": "Description of updated project 2",
+                    "project_link": "https://www.google.com"
+                }
+            ],
+            "contacts": [
+                {
+                    "id": 1,
+                    "social_network": "Updated contact 1",
+                    "link": "https://www.google.com"
+                },
+                {
+                    "id": 2,
+                    "social_network": "Updated contact 2",
+                    "link": "https://www.github.com"
+                }
+            ]
+        }
+        resp = self.client.patch(reverse('api_portfolio', kwargs={'link': self.portfolio_1.link}),
+                                 content_type='application/json',
+                                 data=json.dumps(data))
+
+        self.assertEqual(resp.status_code, status.HTTP_401_UNAUTHORIZED)
