@@ -444,7 +444,7 @@ class YourTestClass(TestCase):
     def test_delete_portfolio_without_auth(self):
         """
         Try to delete portfolio without authorization
-        :return:
+        :return: Status 401
         """
         resp = self.client.delete(reverse('api_portfolio', kwargs={'link': self.portfolio_1.link}))
         self.assertEqual(resp.status_code, status.HTTP_401_UNAUTHORIZED)
@@ -452,9 +452,19 @@ class YourTestClass(TestCase):
     def test_delete_portfolio_with_auth(self):
         """
         Try to delete portfolio of authorized user
-        :return:
+        :return: Status 204
         """
         headers = {"HTTP_AUTHORIZATION": "JWT " + self.user1_token}
         resp = self.client.delete(reverse('api_portfolio', kwargs={'link': self.portfolio_1.link}),
                                   **headers)
         self.assertEqual(resp.status_code, status.HTTP_204_NO_CONTENT)
+
+    def test_delete_portfolio_other_user(self):
+        """
+        Try to delete portfolio of other user
+        :return: Status 403
+        """
+        headers = {"HTTP_AUTHORIZATION": "JWT " + self.user1_token}
+        resp = self.client.delete(reverse('api_portfolio', kwargs={'link': self.portfolio_3.link}),
+                                  **headers)
+        self.assertEqual(resp.status_code, status.HTTP_403_FORBIDDEN)
