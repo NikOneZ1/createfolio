@@ -341,3 +341,56 @@ class YourTestClass(TestCase):
 
         self.assertEqual(resp.status_code, status.HTTP_200_OK)
         self.assertNotEqual(resp.data["user"], data["user"])
+
+    def test_patch_portfolio_with_auth(self):
+        """
+        PATCH portfolio of authorized user
+        :return: Status 200 OK and Updated portfolio
+        """
+        data = {
+            "id": 1,
+            "image": None,
+            "header": "Updated portfolio",
+            "about_me": "Updated portfolio about me.",
+            "link": "created_portfolio2_upd",
+            "projects": [
+                {
+                    "id": 1,
+                    "name": "Updated project 1",
+                    "description": "Description of updated project 1",
+                    "image": None,
+                    "project_link": "https://www.google.com"
+                },
+                {
+                    "id": 2,
+                    "name": "Updated project 2",
+                    "description": "Description of updated project 2",
+                    "image": None,
+                    "project_link": "https://www.google.com"
+                }
+            ],
+            "contacts": [
+                {
+                    "id": 1,
+                    "social_network": "Updated contact 1",
+                    "link": "https://www.google.com",
+                    "logo": None
+                },
+                {
+                    "id": 2,
+                    "social_network": "Updated contact 2",
+                    "link": "https://www.github.com",
+                    "logo": None
+                }
+            ],
+            "user": 1
+        }
+        headers = {"HTTP_AUTHORIZATION": "JWT " + self.user1_token}
+        resp = self.client.patch(reverse('api_portfolio', kwargs={'link': self.portfolio_1.link}),
+                                 content_type='application/json',
+                                 data=json.dumps(data),
+                                 **headers
+                                 )
+
+        self.assertEqual(resp.status_code, status.HTTP_200_OK)
+        self.assertEqual(json.dumps(resp.data), json.dumps(data))
