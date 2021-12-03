@@ -440,3 +440,12 @@ class YourTestClass(TestCase):
                                  )
 
         self.assertEqual(resp.status_code, status.HTTP_403_FORBIDDEN)
+
+    def test_delete_portfolio_without_auth(self):
+        """
+        Try to delete portfolio without authorization
+        :return:
+        """
+        resp = self.client.delete(reverse('api_portfolio', kwargs={'link': self.portfolio_1.link}))
+        self.assertEqual(resp.status_code, status.HTTP_401_UNAUTHORIZED)
+
