@@ -67,7 +67,7 @@ class PortfolioSerializer(serializers.ModelSerializer):
         projects_data = validated_data.pop('projects')
         contacts_data = validated_data.pop('contacts')
         if self.context['request'].method == 'PATCH' or self.context['request'].method == 'PUT':
-            portfolio = Portfolio.objects.get(pk=validated_data['id'])
+            portfolio = Portfolio.objects.get(link=self.context['view'].kwargs.get("link"))
             if validated_data.get('image', None):
                 portfolio.image = validated_data['image']
             portfolio.header = validated_data['header']

@@ -394,3 +394,49 @@ class YourTestClass(TestCase):
 
         self.assertEqual(resp.status_code, status.HTTP_200_OK)
         self.assertEqual(json.dumps(resp.data), json.dumps(data))
+
+    def test_patch_portfolio_other_user(self):
+        """
+        PATCH portfolio of other user
+        :return: Status 403
+        """
+        data = {
+            "id": 3,
+            "header": "Updated portfolio",
+            "about_me": "Updated portfolio about me.",
+            "link": "created_portfolio2_upd",
+            "projects": [
+                {
+                    "id": 5,
+                    "name": "Updated project 1",
+                    "description": "Description of updated project 1",
+                    "project_link": "https://www.google.com"
+                },
+                {
+                    "id": 6,
+                    "name": "Updated project 2",
+                    "description": "Description of updated project 2",
+                    "project_link": "https://www.google.com"
+                }
+            ],
+            "contacts": [
+                {
+                    "id": 5,
+                    "social_network": "Updated contact 1",
+                    "link": "https://www.google.com",
+                },
+                {
+                    "id": 6,
+                    "social_network": "Updated contact 2",
+                    "link": "https://www.github.com",
+                }
+            ]
+        }
+        headers = {"HTTP_AUTHORIZATION": "JWT " + self.user1_token}
+        resp = self.client.patch(reverse('api_portfolio', kwargs={'link': self.portfolio_3.link}),
+                                 content_type='application/json',
+                                 data=json.dumps(data),
+                                 **headers
+                                 )
+
+        self.assertEqual(resp.status_code, status.HTTP_403_FORBIDDEN)
