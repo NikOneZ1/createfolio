@@ -265,3 +265,50 @@ class YourTestClass(TestCase):
                                  data=json.dumps(data))
 
         self.assertEqual(resp.status_code, status.HTTP_401_UNAUTHORIZED)
+
+    def test_patch_portfolio_with_other_user(self):
+        """
+        Change user in updated portfolio (user should not be changed)
+        """
+        data = {
+            "id": 1,
+            "header": "Updated portfolio",
+            "about_me": "Updated portfolio about me.",
+            "link": "created_portfolio2_upd",
+            "projects": [
+                {
+                    "id": 1,
+                    "name": "Updated project 1",
+                    "description": "Description of updated project 1",
+                    "project_link": "https://www.google.com"
+                },
+                {
+                    "id": 2,
+                    "name": "Updated project 2",
+                    "description": "Description of updated project 2",
+                    "project_link": "https://www.google.com"
+                }
+            ],
+            "contacts": [
+                {
+                    "id": 1,
+                    "social_network": "Updated contact 1",
+                    "link": "https://www.google.com"
+                },
+                {
+                    "id": 2,
+                    "social_network": "Updated contact 2",
+                    "link": "https://www.github.com"
+                }
+            ],
+            "user": 2
+        }
+        headers = {"HTTP_AUTHORIZATION": "JWT " + self.user1_token}
+        resp = self.client.patch(reverse('api_portfolio', kwargs={'link': self.portfolio_1.link}),
+                                 content_type='application/json',
+                                 data=json.dumps(data),
+                                 **headers
+                                 )
+
+        self.assertEqual(resp.status_code, status.HTTP_200_OK)
+        self.assertNotEqual(resp.data["user"], data["user"])
