@@ -128,6 +128,10 @@ class YourTestClass(TestCase):
         )
 
     def test_get_portfolio_without_auth(self):
+        """
+        Try to get portfolio without authorization
+        :return: Portfolio with the corresponding link
+        """
         resp = self.client.get(reverse('api_portfolio', kwargs={'link': self.portfolio_1.link}))
         portfolio = Portfolio.objects.get(pk=self.portfolio_1.pk)
         serializer = PortfolioSerializer(portfolio)
@@ -135,6 +139,10 @@ class YourTestClass(TestCase):
         self.assertEqual(resp.status_code, status.HTTP_200_OK)
 
     def test_get_portfolio_with_auth(self):
+        """
+        Try to get portfolio without authorization
+        :return: Portfolio with the corresponding link
+        """
         headers = {"HTTP_AUTHORIZATION": "JWT " + self.user1_token}
         resp = self.client.get(reverse('api_portfolio', kwargs={'link': self.portfolio_1.link}), **headers)
         portfolio = Portfolio.objects.get(pk=self.portfolio_1.pk)
@@ -143,6 +151,10 @@ class YourTestClass(TestCase):
         self.assertEqual(resp.status_code, status.HTTP_200_OK)
 
     def test_portfolio_create_without_auth(self):
+        """
+        Try to create portfolio without authorization
+        :return: 401 ERROR
+        """
         data = {
             "header": "Created portfolio",
             "about_me": "Created portfolio about me.",
@@ -178,6 +190,10 @@ class YourTestClass(TestCase):
         self.assertEqual(resp.status_code, status.HTTP_401_UNAUTHORIZED)
 
     def test_portfolio_create_with_auth(self):
+        """
+        Try to create portfolio with authorized user
+        :return: Status 201 CREATED
+        """
         data = {
             "header": "Created portfolio",
             "about_me": "Created portfolio about me.",
@@ -217,6 +233,10 @@ class YourTestClass(TestCase):
         self.assertEqual(resp.status_code, status.HTTP_201_CREATED)
 
     def test_get_user_portfolio_with_auth(self):
+        """
+        Try to GET portfolio with authorized user
+        :return: All portfolios of authorized user
+        """
         headers = {"HTTP_AUTHORIZATION": "JWT " + self.user1_token}
         resp = self.client.get(reverse('api_user_portfolio'), **headers)
         portfolios = Portfolio.objects.filter(user=self.user_1)
@@ -224,10 +244,18 @@ class YourTestClass(TestCase):
         self.assertEqual(serializer.data, resp.data)
 
     def test_get_user_portfolio_without_auth(self):
+        """
+        Try to get user portfolio without authorization
+        :return: 401 ERROR
+        """
         resp = self.client.get(reverse('api_user_portfolio'))
         self.assertEqual(resp.status_code, status.HTTP_401_UNAUTHORIZED)
 
     def test_patch_portfolio_without_auth(self):
+        """
+        Try to PATCH portfolio without authorization
+        :return: 401 ERROR
+        """
         data = {
             "id": 1,
             "header": "Updated portfolio",
@@ -269,6 +297,7 @@ class YourTestClass(TestCase):
     def test_patch_portfolio_with_other_user(self):
         """
         Change user in updated portfolio (user should not be changed)
+        :return: Updated portfolio with not changed user
         """
         data = {
             "id": 1,
