@@ -449,3 +449,12 @@ class YourTestClass(TestCase):
         resp = self.client.delete(reverse('api_portfolio', kwargs={'link': self.portfolio_1.link}))
         self.assertEqual(resp.status_code, status.HTTP_401_UNAUTHORIZED)
 
+    def test_delete_portfolio_with_auth(self):
+        """
+        Try to delete portfolio of authorized user
+        :return:
+        """
+        headers = {"HTTP_AUTHORIZATION": "JWT " + self.user1_token}
+        resp = self.client.delete(reverse('api_portfolio', kwargs={'link': self.portfolio_1.link}),
+                                  **headers)
+        self.assertEqual(resp.status_code, status.HTTP_204_NO_CONTENT)
