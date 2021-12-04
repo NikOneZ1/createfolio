@@ -598,5 +598,23 @@ class YourTestClass(TestCase):
                                  content_type='application/json',
                                  data=json.dumps(data),
                                  **headers)
+
         self.assertEqual(json.dumps(resp.data), json.dumps(returned_data))
         self.assertEqual(resp.status_code, status.HTTP_200_OK)
+
+    def test_delete_project_without_auth(self):
+        """
+        Try to delete project without authorization
+        :return: Status 401
+        """
+        resp = self.client.delete(reverse('api_update_project', kwargs={'pk': 1}))
+        self.assertEqual(resp.status_code, status.HTTP_401_UNAUTHORIZED)
+
+    def test_delete_project_with_auth(self):
+        """
+        Try to delete project with authorization
+        :return: Status
+        """
+        headers = {"HTTP_AUTHORIZATION": "JWT " + self.user1_token}
+        resp = self.client.delete(reverse('api_update_project', kwargs={'pk': 1}), **headers)
+        self.assertEqual(resp.status_code, status.HTTP_204_NO_CONTENT)
