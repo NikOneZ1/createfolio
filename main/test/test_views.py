@@ -537,5 +537,23 @@ class YourTestClass(TestCase):
         }
         resp = self.client.patch(reverse('api_update_project', kwargs={'pk': 1}),
                                  content_type='application/json',
-                                 data=json.dumps(data),)
+                                 data=json.dumps(data))
+
         self.assertEqual(resp.status_code, status.HTTP_401_UNAUTHORIZED)
+
+    def test_update_project_other_user(self):
+        """
+        Try to update project of other user
+        :return: Status 403
+        """
+        data = {
+            "name": "Updated project",
+            "description": "Description of updated project"
+        }
+        headers = {"HTTP_AUTHORIZATION": "JWT " + self.user1_token}
+        resp = self.client.patch(reverse('api_update_project', kwargs={'pk': 5}),
+                                 content_type='application/json',
+                                 data=json.dumps(data),
+                                 **headers)
+
+        self.assertEqual(resp.status_code, status.HTTP_403_FORBIDDEN)
