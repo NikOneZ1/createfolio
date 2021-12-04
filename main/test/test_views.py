@@ -468,3 +468,18 @@ class YourTestClass(TestCase):
         resp = self.client.delete(reverse('api_portfolio', kwargs={'link': self.portfolio_3.link}),
                                   **headers)
         self.assertEqual(resp.status_code, status.HTTP_403_FORBIDDEN)
+
+    def test_create_project_without_auth(self):
+        """
+        Try to create project without authorization
+        :return: Status 401
+        """
+        data = {
+            "name": "Created project",
+            "description": "Description of created project",
+            "portfolio": 1
+        }
+        resp = self.client.post(reverse('api_create_project'),
+                                content_type='application/json',
+                                data=json.dumps(data))
+        self.assertEqual(resp.status_code, status.HTTP_401_UNAUTHORIZED)
