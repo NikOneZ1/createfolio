@@ -557,3 +557,21 @@ class YourTestClass(TestCase):
                                  **headers)
 
         self.assertEqual(resp.status_code, status.HTTP_403_FORBIDDEN)
+
+    def test_update_portfolio_in_project(self):
+        """
+        Try to change portfolio in project
+        :return: Status 400
+        """
+        data = {
+            "name": "Updated project",
+            "description": "Description of updated project",
+            "portfolio": 3
+        }
+        headers = {"HTTP_AUTHORIZATION": "JWT " + self.user1_token}
+        resp = self.client.patch(reverse('api_update_project', kwargs={'pk': 1}),
+                                 content_type='application/json',
+                                 data=json.dumps(data),
+                                 **headers)
+
+        self.assertEqual(resp.status_code, status.HTTP_400_BAD_REQUEST)
