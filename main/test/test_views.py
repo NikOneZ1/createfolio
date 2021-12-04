@@ -505,3 +505,21 @@ class YourTestClass(TestCase):
                                 data=json.dumps(data),
                                 **headers)
         self.assertEqual(resp.status_code, status.HTTP_400_BAD_REQUEST)
+
+    def test_create_project_with_auth(self):
+        """
+        Try to create project with auth
+        :return: Status 201
+        """
+        data = {
+            "name": "Created project",
+            "description": "Description of created project",
+            "project_link": "https://www.google.com",
+            "portfolio": 1
+        }
+        headers = {"HTTP_AUTHORIZATION": "JWT " + self.user1_token}
+        resp = self.client.post(reverse('api_create_project'),
+                                content_type='application/json',
+                                data=json.dumps(data),
+                                **headers)
+        self.assertEqual(resp.status_code, status.HTTP_201_CREATED)
