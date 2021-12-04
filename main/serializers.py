@@ -5,7 +5,7 @@ from django.db import transaction
 
 class ProjectSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(required=False)
-    portfolio = serializers.HiddenField(default=0)
+    portfolio = serializers.PrimaryKeyRelatedField(queryset=Portfolio.objects.all(), required=False)
 
     class Meta:
         model = Project
@@ -27,7 +27,7 @@ class ProjectSerializer(serializers.ModelSerializer):
 
 class ContactSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(required=False)
-    portfolio = serializers.HiddenField(default=0)
+    portfolio = serializers.PrimaryKeyRelatedField(queryset=Portfolio.objects.all(), required=False)
 
     class Meta:
         model = Contact
@@ -97,9 +97,9 @@ class PortfolioSerializer(serializers.ModelSerializer):
             with transaction.atomic():
                 portfolio = Portfolio.objects.create(**validated_data)
                 for project in projects_data:
-                    portfolio_pk = project.pop('portfolio')
+                    portfolio_pk = project.pop('portfolio', None)
                     Project.objects.create(portfolio=portfolio, **project)
                 for contact in contacts_data:
-                    portfolio_pk = contact.pop('portfolio')
+                    portfolio_pk = contact.pop('portfolio', None)
                     Contact.objects.create(portfolio=portfolio, **contact)
             return portfolio

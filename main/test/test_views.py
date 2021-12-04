@@ -359,14 +359,16 @@ class YourTestClass(TestCase):
                     "name": "Updated project 1",
                     "description": "Description of updated project 1",
                     "image": None,
-                    "project_link": "https://www.google.com"
+                    "project_link": "https://www.google.com",
+                    "portfolio": 1
                 },
                 {
                     "id": 2,
                     "name": "Updated project 2",
                     "description": "Description of updated project 2",
                     "image": None,
-                    "project_link": "https://www.google.com"
+                    "project_link": "https://www.google.com",
+                    "portfolio": 1
                 }
             ],
             "contacts": [
@@ -374,13 +376,15 @@ class YourTestClass(TestCase):
                     "id": 1,
                     "social_network": "Updated contact 1",
                     "link": "https://www.google.com",
-                    "logo": None
+                    "logo": None,
+                    "portfolio": 1,
                 },
                 {
                     "id": 2,
                     "social_network": "Updated contact 2",
                     "link": "https://www.github.com",
-                    "logo": None
+                    "logo": None,
+                    "portfolio": 1
                 }
             ],
             "user": 1
@@ -483,3 +487,21 @@ class YourTestClass(TestCase):
                                 content_type='application/json',
                                 data=json.dumps(data))
         self.assertEqual(resp.status_code, status.HTTP_401_UNAUTHORIZED)
+
+    def test_create_project_other_user(self):
+        """
+        Try to create project to portfolio of other user
+        :return: Status 400
+        """
+        data = {
+            "name": "Created project",
+            "description": "Description of created project",
+            "project_link": "https://www.google.com",
+            "portfolio": 3
+        }
+        headers = {"HTTP_AUTHORIZATION": "JWT " + self.user1_token}
+        resp = self.client.post(reverse('api_create_project'),
+                                content_type='application/json',
+                                data=json.dumps(data),
+                                **headers)
+        self.assertEqual(resp.status_code, status.HTTP_400_BAD_REQUEST)
