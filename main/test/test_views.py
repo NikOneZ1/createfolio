@@ -523,3 +523,19 @@ class YourTestClass(TestCase):
                                 data=json.dumps(data),
                                 **headers)
         self.assertEqual(resp.status_code, status.HTTP_201_CREATED)
+
+    def test_update_project_without_auth(self):
+        """
+        Try to update project without authentication
+        :return: Status 401
+        """
+        data = {
+            "id": 1,
+            "name": "Updated project",
+            "description": "Description of updated project",
+            "project_link": "https://www.google.com",
+        }
+        resp = self.client.patch(reverse('api_update_project', kwargs={'pk': 1}),
+                                 content_type='application/json',
+                                 data=json.dumps(data),)
+        self.assertEqual(resp.status_code, status.HTTP_401_UNAUTHORIZED)
