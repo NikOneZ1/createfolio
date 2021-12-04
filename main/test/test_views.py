@@ -575,3 +575,28 @@ class YourTestClass(TestCase):
                                  **headers)
 
         self.assertEqual(resp.status_code, status.HTTP_400_BAD_REQUEST)
+
+    def test_update_project_with_auth(self):
+        """
+        Try to update project with authorization
+        :return: Status 200
+        """
+        data = {
+            "name": "Updated project",
+            "description": "Description of updated project"
+        }
+        returned_data = {
+            "id": 1,
+            "name": "Updated project",
+            "description": "Description of updated project",
+            "image": None,
+            "project_link": "https://www.google.com",
+            "portfolio": 1
+        }
+        headers = {"HTTP_AUTHORIZATION": "JWT " + self.user1_token}
+        resp = self.client.patch(reverse('api_update_project', kwargs={'pk': 1}),
+                                 content_type='application/json',
+                                 data=json.dumps(data),
+                                 **headers)
+        self.assertEqual(json.dumps(resp.data), json.dumps(returned_data))
+        self.assertEqual(resp.status_code, status.HTTP_200_OK)
