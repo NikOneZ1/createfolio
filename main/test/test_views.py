@@ -607,8 +607,8 @@ class YourTestClass(TestCase):
         Try to delete project without authorization
         :return: Status 401
         """
-        resp = self.client.delete(reverse('api_update_project', kwargs={'pk': 1})
-                                  
+        resp = self.client.delete(reverse('api_update_project', kwargs={'pk': 1}))
+
         self.assertEqual(resp.status_code, status.HTTP_401_UNAUTHORIZED)
 
     def test_delete_project_with_auth(self):
