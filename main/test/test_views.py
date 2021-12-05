@@ -715,9 +715,9 @@ class YourTestClass(TestCase):
 
         self.assertEqual(resp.status_code, status.HTTP_403_FORBIDDEN)
 
-    def test_update_portfolio_in_project(self):
+    def test_update_portfolio_in_contact(self):
         """
-        Try to change contact in project
+        Try to change portfolio in contact
         :return: Status 400
         """
         data = {
@@ -775,3 +775,13 @@ class YourTestClass(TestCase):
         headers = {"HTTP_AUTHORIZATION": "JWT " + self.user1_token}
         resp = self.client.delete(reverse('api_update_contact', kwargs={'pk': 1}), **headers)
         self.assertEqual(resp.status_code, status.HTTP_204_NO_CONTENT)
+
+    def test_delete_contact_other_user(self):
+        """
+        Try to delete contact of other user
+        :return: Status 403
+        """
+        headers = {"HTTP_AUTHORIZATION": "JWT " + self.user1_token}
+        resp = self.client.delete(reverse('api_update_contact', kwargs={'pk': 5}), **headers)
+
+        self.assertEqual(resp.status_code, status.HTTP_403_FORBIDDEN)
