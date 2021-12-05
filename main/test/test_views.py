@@ -732,3 +732,28 @@ class YourTestClass(TestCase):
                                  **headers)
 
         self.assertEqual(resp.status_code, status.HTTP_400_BAD_REQUEST)
+
+    def test_update_contact_with_auth(self):
+        """
+        Try to update contact with authentication
+        :return: Status 200
+        """
+        data = {
+            "social_network": "Updated network",
+            "link": "https://www.facebook.com",
+        }
+        returned_data = {
+            "id": 1,
+            "social_network": "Updated network",
+            "link": "https://www.facebook.com",
+            "logo": None,
+            "portfolio": 1
+        }
+        headers = {"HTTP_AUTHORIZATION": "JWT " + self.user1_token}
+        resp = self.client.patch(reverse('api_update_contact', kwargs={'pk': 1}),
+                                 content_type='application/json',
+                                 data=json.dumps(data),
+                                 **headers)
+
+        self.assertEqual(json.dumps(resp.data), json.dumps(returned_data))
+        self.assertEqual(resp.status_code, status.HTTP_200_OK)
