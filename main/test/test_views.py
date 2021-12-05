@@ -663,3 +663,22 @@ class YourTestClass(TestCase):
                                 data=json.dumps(data),
                                 **headers)
         self.assertEqual(resp.status_code, status.HTTP_400_BAD_REQUEST)
+
+    def test_create_contact_with_auth(self):
+        """
+        Try to create contact with authorization
+        :return: Status 201
+        """
+        data = {
+            "social_network": "Created network",
+            "link": "https://www.facebook.com",
+            "logo": None,
+            "portfolio": 1
+        }
+        headers = {"HTTP_AUTHORIZATION": "JWT " + self.user1_token}
+        resp = self.client.post(reverse('api_create_contact'),
+                                content_type='application/json',
+                                data=json.dumps(data),
+                                **headers)
+
+        self.assertEqual(resp.status_code, status.HTTP_201_CREATED)
