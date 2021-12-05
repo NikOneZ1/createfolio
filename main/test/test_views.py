@@ -682,3 +682,19 @@ class YourTestClass(TestCase):
                                 **headers)
 
         self.assertEqual(resp.status_code, status.HTTP_201_CREATED)
+
+    def test_update_contact_without_auth(self):
+        """
+        Try to update contact without authentication
+        :return: Status 401
+        """
+        data = {
+            "id": 1,
+            "social_network": "Updated network",
+            "link": "https://www.facebook.com",
+        }
+        resp = self.client.patch(reverse('api_update_contact', kwargs={'pk': 1}),
+                                 content_type='application/json',
+                                 data=json.dumps(data))
+    
+        self.assertEqual(resp.status_code, status.HTTP_401_UNAUTHORIZED)
