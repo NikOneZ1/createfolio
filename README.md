@@ -1,5 +1,6 @@
 # Createfolio
 ![example workflow](https://github.com/NikOneZ1/createfolio/actions/workflows/django.yml/badge.svg)
+[![Python 3.7](https://img.shields.io/badge/python-3.7-blue.svg)](https://www.python.org/downloads/release/python-360/)
 
 Create your own portfolio. Add information about yourself, your best projects and share it with other people.
 ### [Demo](https://createfolio.herokuapp.com/portfolio/nikone)
