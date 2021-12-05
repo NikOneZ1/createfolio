@@ -766,3 +766,12 @@ class YourTestClass(TestCase):
         resp = self.client.delete(reverse('api_update_contact', kwargs={'pk': 1}))
 
         self.assertEqual(resp.status_code, status.HTTP_401_UNAUTHORIZED)
+
+    def test_delete_contact_with_auth(self):
+        """
+        Try to delete contact with authorization
+        :return: Status 204
+        """
+        headers = {"HTTP_AUTHORIZATION": "JWT " + self.user1_token}
+        resp = self.client.delete(reverse('api_update_contact', kwargs={'pk': 1}), **headers)
+        self.assertEqual(resp.status_code, status.HTTP_204_NO_CONTENT)
