@@ -636,7 +636,7 @@ class YourTestClass(TestCase):
         :return: Status 401
         """
         data = {
-            "social_network":"Updated network",
+            "social_network": "Created network",
             "link": "https://www.facebook.com",
             "logo": None,
             "portfolio": 1
@@ -645,3 +645,21 @@ class YourTestClass(TestCase):
                                 content_type='application/json',
                                 data=json.dumps(data))
         self.assertEqual(resp.status_code, status.HTTP_401_UNAUTHORIZED)
+
+    def test_create_contact_other_user(self):
+        """
+        Try to create contact to portfolio of other user
+        :return: Status 400
+        """
+        data = {
+            "social_network": "Created network",
+            "link": "https://www.facebook.com",
+            "logo": None,
+            "portfolio": 3
+        }
+        headers = {"HTTP_AUTHORIZATION": "JWT " + self.user1_token}
+        resp = self.client.post(reverse('api_create_contact'),
+                                content_type='application/json',
+                                data=json.dumps(data),
+                                **headers)
+        self.assertEqual(resp.status_code, status.HTTP_400_BAD_REQUEST)
