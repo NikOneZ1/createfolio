@@ -607,14 +607,25 @@ class YourTestClass(TestCase):
         Try to delete project without authorization
         :return: Status 401
         """
-        resp = self.client.delete(reverse('api_update_project', kwargs={'pk': 1}))
+        resp = self.client.delete(reverse('api_update_project', kwargs={'pk': 1})
+                                  
         self.assertEqual(resp.status_code, status.HTTP_401_UNAUTHORIZED)
 
     def test_delete_project_with_auth(self):
         """
         Try to delete project with authorization
-        :return: Status
+        :return: Status 204
         """
         headers = {"HTTP_AUTHORIZATION": "JWT " + self.user1_token}
         resp = self.client.delete(reverse('api_update_project', kwargs={'pk': 1}), **headers)
         self.assertEqual(resp.status_code, status.HTTP_204_NO_CONTENT)
+
+    def test_delete_project_other_user(self):
+        """
+        Try to delete project of other user
+        :return: Status 403
+        """
+        headers = {"HTTP_AUTHORIZATION": "JWT " + self.user1_token}
+        resp = self.client.delete(reverse('api_update_project', kwargs={'pk': 5}), **headers)
+
+        self.assertEqual(resp.status_code, status.HTTP_403_FORBIDDEN)
