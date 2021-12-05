@@ -689,12 +689,28 @@ class YourTestClass(TestCase):
         :return: Status 401
         """
         data = {
-            "id": 1,
             "social_network": "Updated network",
             "link": "https://www.facebook.com",
         }
         resp = self.client.patch(reverse('api_update_contact', kwargs={'pk': 1}),
                                  content_type='application/json',
                                  data=json.dumps(data))
-    
+
         self.assertEqual(resp.status_code, status.HTTP_401_UNAUTHORIZED)
+
+    def test_update_contact_other_user(self):
+        """
+        Try to update contact of other user
+        :return: Status 403
+        """
+        data = {
+            "social_network": "Updated network",
+            "link": "https://www.facebook.com",
+        }
+        headers = {"HTTP_AUTHORIZATION": "JWT " + self.user1_token}
+        resp = self.client.patch(reverse('api_update_contact', kwargs={'pk': 5}),
+                                 content_type='application/json',
+                                 data=json.dumps(data),
+                                 **headers)
+
+        self.assertEqual(resp.status_code, status.HTTP_403_FORBIDDEN)
