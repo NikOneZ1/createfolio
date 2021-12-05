@@ -629,3 +629,19 @@ class YourTestClass(TestCase):
         resp = self.client.delete(reverse('api_update_project', kwargs={'pk': 5}), **headers)
 
         self.assertEqual(resp.status_code, status.HTTP_403_FORBIDDEN)
+
+    def test_create_contact_without_auth(self):
+        """
+        Try to create contact without authorization
+        :return: Status 401
+        """
+        data = {
+            "social_network":"Updated network",
+            "link": "https://www.facebook.com",
+            "logo": None,
+            "portfolio": 1
+        }
+        resp = self.client.post(reverse('api_create_contact'),
+                                content_type='application/json',
+                                data=json.dumps(data))
+        self.assertEqual(resp.status_code, status.HTTP_401_UNAUTHORIZED)
