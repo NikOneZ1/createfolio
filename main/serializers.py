@@ -76,30 +76,34 @@ class PortfolioSerializer(serializers.ModelSerializer):
             portfolio.save()
 
             with transaction.atomic():
-                for project in projects_data:
-                    proj = Project.objects.get(pk=project['id'])
-                    proj.name = project['name']
-                    proj.description = project['description']
-                    if project.get('image', None):
-                        proj.image = project['image']
-                    proj.project_link = project['project_link']
-                    proj.save()
-                for contact in contacts_data:
-                    cont = Contact.objects.get(pk=contact['id'])
-                    cont.social_network = contact['social_network']
-                    cont.link = contact['link']
-                    if contact.get('logo', None):
-                        cont.logo = contact['logo']
-                    cont.save()
+                project_ids = [project['id'] for project in projects_data]
+                project_objects = list(Project.objects.filter(pk__in=project_ids))
+                for project, project_data in zip(project_objects, projects_data):
+                    project.name = project_data['name']
+                    project.description = project_data['description']
+                    if project_data.get('image', None):
+                        project.image = project_data['image']
+                    project.project_link = project_data['project_link']
+
+                contact_ids = [contact['id'] for contact in contacts_data]
+                contact_objects = list(Contact.objects.filter(pk__in=contact_ids))
+                for contact, contact_data in zip(contact_objects, contacts_data):
+                    contact.social_network = contact_data['social_network']
+                    contact.link = contact_data['link']
+                    if contact_data.get('logo', None):
+                        contact.logo = contact_data['logo']
+
+                Project.objects.bulk_update(project_objects, ['name', 'description', 'image', 'project_link'])
+                Contact.objects.bulk_update(contact_objects, ['social_network', 'link', 'logo'])
 
             return portfolio
         elif self.context['request'].method == 'POST':
             with transaction.atomic():
                 portfolio = Portfolio.objects.create(**validated_data)
                 for project in projects_data:
-                    portfolio_pk = project.pop('portfolio', None)
-                    Project.objects.create(portfolio=portfolio, **project)
+                    project['portfolio'] = portfolio
+                Project.objects.bulk_create([Project(**project) for project in projects_data])
                 for contact in contacts_data:
-                    portfolio_pk = contact.pop('portfolio', None)
-                    Contact.objects.create(portfolio=portfolio, **contact)
+                    contact['portfolio'] = portfolio
+                Contact.objects.bulk_create([Contact(**contact) for contact in contacts_data])
             return portfolio
