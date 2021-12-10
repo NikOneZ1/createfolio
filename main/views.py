@@ -25,7 +25,7 @@ class UserPortfolioListView(generics.ListAPIView):
 class PortfolioCreateView(generics.CreateAPIView):
     """
     Create portfolio
-    If you trying to create portfolio you don't have to send 'id' field in request
+    If you`re trying to create portfolio you don't have to send 'id' field in request
     """
     permission_classes = [IsAuthenticated]
     serializer_class = PortfolioSerializer
