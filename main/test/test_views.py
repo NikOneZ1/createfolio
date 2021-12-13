@@ -7,7 +7,7 @@ from ..serializers import PortfolioSerializer, ProjectSerializer, ContactSeriali
 import json
 
 
-class YourTestClass(TestCase):
+class ViewTestClass(TestCase):
     @classmethod
     def setUpTestData(cls):
         cls.client = Client()
