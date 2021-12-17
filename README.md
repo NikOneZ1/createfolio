@@ -20,3 +20,7 @@ CLOUDINARY_STORAGE = {
 EMAIL_HOST_USER = "Addres of the mail from which messages will be sent"
 EMAIL_HOST_PASSWORD = "Password of the mail from which messages will be sent"
 ```
+# Technologies used
+- Python 3.10.1
+- Django 4.0
+- Django REST Framework 3.12.4
