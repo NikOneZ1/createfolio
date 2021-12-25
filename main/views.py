@@ -3,6 +3,11 @@ from .permissions import PortfolioUserPermission, ProjectContactUserPermission
 from .models import Portfolio, Project, Contact
 from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
 from rest_framework import generics
+from django.shortcuts import render
+
+
+def index(request):
+    return render(request, 'build/index.html')
 
 
 class UserPortfolioListView(generics.ListAPIView):
