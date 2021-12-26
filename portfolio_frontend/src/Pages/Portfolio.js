@@ -82,6 +82,21 @@ const Portfolio = () => {
             </div>
             <br/>
 
+            <div className="row">
+                <div className="contact mx-auto d-block col col-xs-10 col-sm-10 col-md-10 col-lg-8 text-center">
+                {contacts && contacts.map(contact =>
+                    <div className="row justify-content-center">
+                        <div className="col-1">
+                            <img className='contact-logo' src={ contact.logo }></img>
+                        </div>
+                        <div className="col-3">
+                            <a style={{ textDecoration: 'none' }} href={ contact.link }><p>{ contact.social_network }</p></a>
+                        </div>
+                    </div>
+                )}
+                </div>
+            </div>
+
         </div>
     )
 }
