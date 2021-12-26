@@ -44,7 +44,25 @@ html {
   line-height: 68px;
   color: #ffffff;
 }
-p {
+
+.header2 {
+  font-family: 'Nunito';
+  font-style: normal;
+  font-weight: bold;
+  font-size: 35px;
+  line-height: 48px;
+  color: #ffffff;
+}
+
+.portfolio-logo {
+  height: 150px;
+}
+
+.project-image {
+  max-width: 100%;
+}
+
+.homepage-text {
   font-family: 'Nunito';
   font-style: normal;
   font-weight: 300;
@@ -52,6 +70,16 @@ p {
   line-height: 48px;
   text-align: center;
   color: #ffffff;
+}
+
+p {
+  font-family: 'Nunito';
+  font-style: normal;
+  font-weight: 300;
+  font-size: 25px;
+  line-height: 34px;
+  text-align: center;
+  color: #FFFFFF;
 }
 
 a {
