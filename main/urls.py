@@ -1,5 +1,6 @@
 from django.urls import path, include, re_path
 from django.contrib.auth import views as auth_views
+from django.contrib import admin
 from . import views
 from .yasg import urlpatterns as doc_urls
 from django.conf import settings
@@ -15,6 +16,7 @@ urlpatterns = [
     path('api/update_contact/<pk>', views.ContactUpdateRemoveView.as_view(), name='api_update_contact'),
     path('auth/', include('djoser.urls')),
     path('auth/', include('djoser.urls.jwt')),
+    path('admin/', admin.site.urls),
     path('', views.index, name='index'),
     re_path(r'^(?:.*)/?$', views.index),
 ]
