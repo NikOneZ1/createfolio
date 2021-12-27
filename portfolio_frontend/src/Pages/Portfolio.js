@@ -1,5 +1,5 @@
 import React, { Component, useState, useEffect } from 'react';
-import {Link, useParams} from 'react-router-dom';
+import {Link, useParams } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import API from '../Utils/API';
 
@@ -11,15 +11,18 @@ const Portfolio = () => {
     const [projects, setProjects] = useState(null);
     const [contacts, setContacts] = useState(null);
 
-    useEffect(async () => {
-        let data = await API.get("/api/portfolio/"+link);
-        data = data.data
-        setImage(data.image);
-        setHeader(data.header);
-        setAboutMe(data.about_me);
-        setProjects(data.projects);
-        setContacts(data.contacts);
-    });
+    useEffect(() => {
+        async function get_portfolio() {
+            const response = await API.get("/api/portfolio/"+link);
+            const data = await response.data;
+            setImage(data.image);
+            setHeader(data.header);
+            setAboutMe(data.about_me);
+            setProjects(data.projects);
+            setContacts(data.contacts);
+        }
+        get_portfolio();
+    }, []);
 
     return (
         <div className='container'>
