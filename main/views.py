@@ -11,7 +11,11 @@ from django.http import HttpResponseForbidden
 from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
 from rest_framework import generics
 
+# View for React frontend
+def index(request):
+    return render(request, 'build/index.html')
 
+# API views
 class UserPortfolioListView(generics.ListAPIView):
     """Get list of user portfolios"""
     permission_classes = [IsAuthenticated]
@@ -72,7 +76,7 @@ class ContactUpdateRemoveView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = ContactSerializer
     queryset = Contact.objects.all()
 
-
+# Views for django frontend
 def portfolio(request, portfolio_name):
     data = {
         'portfolio': Portfolio.objects.get(link=portfolio_name),
