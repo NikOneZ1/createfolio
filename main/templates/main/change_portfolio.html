@@ -1,0 +1,200 @@
+{% extends 'main/home.html' %}
+{% block title_block %}
+<title>Change Portfolio</title>
+<style>
+        hr.solid {
+            border-top: 8px solid #FFFFFF;
+        }
+
+        hr.thin {
+            border-top: 2px solid #FFFFFF;
+        }
+
+        body::-webkit-scrollbar {
+            display: none;
+        }
+
+        body {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        .link-unstyled, .link-unstyled:link, .link-unstyled:hover {
+            color: inherit;
+            text-decoration: inherit;
+        }
+    </style>
+{% endblock %}
+{% block main_section %}
+<div class="container">
+    <!-- Change Portfolio header -->
+    <div class="row">
+        <div class="mx-auto d-block col-xs-10 col-sm-10 col-md-10 col-lg-8">
+            <h1 class="display-4 text-center">Change portfolio</h1>
+        </div>
+    </div>
+    <!-- Horizontal divider block -->
+    <div class="row">
+        <div class="mx-auto d-block col-xs-10 col-sm-10 col-md-10 col-lg-8">
+            <hr class="solid"/>
+        </div>
+    </div>
+    <!-- About me block -->
+    <div class="row">
+        <div class="mx-auto d-block col-xs-10 col-sm-10 col-md-10 col-lg-8">
+            <h1 class="display-4 text-center">About me</h1>
+        </div>
+    </div>
+    <!-- Image block -->
+    <div class="row">
+        <div class="mx-auto d-block col-xs-10 col-sm-10 col-md-10 col-lg-8">
+            <hr class="thin">
+            <h2>Logo:</h2>
+            {% if portfolio.image %}
+            <img style="max-height: 100px;" src="{{ portfolio.image.url }}">
+            {% else %}
+            <p class="lead">None</p>
+            {% endif %}
+        </div>
+    </div>
+    <!-- Header block -->
+    <div class="row">
+        <div class="mx-auto d-block col-xs-10 col-sm-10 col-md-10 col-lg-8">
+            <hr class="thin">
+            <h2>Header:</h2>
+            <p>{{ portfolio.header }}</p>
+        </div>
+    </div>
+    <!-- About me block -->
+    <div class="row">
+        <div class="mx-auto d-block col-xs-10 col-sm-10 col-md-10 col-lg-8">
+            <hr class="thin">
+            <h2>About me:</h2>
+            <p>{{ portfolio.about_me }}</p>
+        </div>
+    </div>
+    <!-- Link block -->
+    <div class="row">
+        <div class="mx-auto d-block col-xs-10 col-sm-10 col-md-10 col-lg-8">
+            <hr class="thin">
+            <h2>Link:</h2>
+            <p class="Lead">{{ portfolio.link }}</p>
+        </div>
+    </div>
+    <!-- Change button block -->
+    <div class="row">
+        <div class="mx-auto d-block col-xs-10 col-sm-10 col-md-10 col-lg-8 text-center">
+            <hr class="thin">
+            <a class="text-cecnter" href="{% url 'change_about_me' portfolio.pk %}"><button class="btn btn-light">Change</button></a>
+        </div>
+    </div>
+    <!-- Horizontal divider block -->
+    <div class="row">
+        <div class="mx-auto d-block col-xs-10 col-sm-10 col-md-10 col-lg-8">
+            <hr class="solid"/>
+        </div>
+    </div>
+    <!-- Projects block -->
+    <div class="row">
+        <div class="mx-auto d-block col-xs-10 col-sm-10 col-md-10 col-lg-8">
+            <h1 class="display-4 text-center">Projects</h1>
+        </div>
+    </div>
+    {% for project in projects %}
+        <div class="row">
+            <div class="mx-auto d-block col-xs-10 col-sm-10 col-md-10 col-lg-8">
+                <hr/>
+                <div class="row">
+                    {% if project.image.url %}
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6">
+                        <a class="link-light link-unstyled" href="{{ project.project_link }}"><img style="max-width: 100%;" src="{{ project.image.url }}"></a>
+                    </div>
+                    {% endif %}
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6">
+                        <a class="link-light link-unstyled" href="{{ project.project_link }}"><h1 class="display-6 text-center">{{project.name}}</h1></a>
+                        <p class="lead text-center">{{ project.description }}</p>
+                    </div>
+                </div>
+                <br/>
+                <div class="row">
+                    <div class="mx-auto d-block col-xs-10 col-sm-10 col-md-10 col-lg-8 text-center">
+                        <a class="text-center" href="{% url 'change_project' project.pk %}"><button class="btn btn-outline-light">Change</button></a>
+                        <a class="text-center" href="{% url 'delete_project' project.pk %}"><button class="btn btn-outline-danger">Delete</button></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+    <!-- Add button -->
+    <div class="row">
+        <div class="mx-auto d-block col-xs-10 col-sm-10 col-md-10 col-lg-8 text-center">
+            <hr class="thin">
+            <a class="" href="{% url 'create_project' portfolio.link %}"><button class="btn btn-light">Add new project</button></a>
+        </div>
+    </div>
+    <!-- Horizontal divider block -->
+    <div class="row">
+        <div class="mx-auto d-block col-xs-10 col-sm-10 col-md-10 col-lg-8">
+            <hr class="solid"/>
+        </div>
+    </div>
+    <!-- Contacts block -->
+    <div class="row">
+        <div class="mx-auto d-block col-xs-10 col-sm-10 col-md-10 col-lg-8">
+            <h1 class="display-4 text-center">Contacts</h1>
+        </div>
+    </div>
+    {% for contact in contacts %}
+        <div class="row">
+            <div class="mx-auto d-block col-xs-10 col-sm-10 col-md-10 col-lg-8">
+                <hr class="thin"/>
+                <div class="row">
+                    {% if contact.logo.url %}
+                    <div class="col-1">
+                        <img style="max-width: 75%;" src="{{ contact.logo.url }}">
+                    </div>
+                    {% endif %}
+                    <div class="col-3">
+                        <a class="link-light" href="{{ contact.link }}"><p class="h4">{{ contact.social_network }}</p></a>
+                    </div>
+                    <div class="col">
+                        <a class="" href="{% url 'change_contact' contact.pk %}"><button class="btn btn-outline-light">Change</button></a>
+                        <a class="text-cecnter" href="{% url 'delete_contact' contact.pk %}"><button class="btn btn-outline-danger">Delete</button></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+    <!-- Add button -->
+    <div class="row">
+        <div class="mx-auto d-block col-xs-10 col-sm-10 col-md-10 col-lg-8 text-center">
+            <hr class="thin">
+            <a class="" href="{% url 'create_contact' portfolio.link %}"><button class="btn btn-light">Add new contact</button></a>
+        </div>
+    </div>
+    <!-- Horizontal divider block -->
+    <br/>
+    <br/>
+    <div class="row">
+        <div class="mx-auto d-block col-xs-10 col-sm-10 col-md-10 col-lg-8">
+            <hr class="thin"/>
+        </div>
+    </div>
+    <!-- Footer -->
+    <div class="row">
+        <div class="mx-auto d-block col-xs-10 col-sm-10 col-md-10 col-lg-8">
+            <div class="row">
+                <a href="/" class="col-md-4 d-flex align-items-center justify-content-center mb-3 mb-md-0 me-md-auto text-decoration-none" mb-checked="1" data-tip="">
+                    <p class="lead text-muted">Home</p>
+                </a>
+                <a href="/" class="col-md-4 d-flex align-items-center justify-content-center mb-3 mb-md-0 me-md-auto text-decoration-none" mb-checked="1" data-tip="">
+                    <h3 class="bi me-2 text-muted">CREATEFOLIO</h3>
+                </a>
+                <a href="mail:nikita.verba18052004@gmail.com" class="col-md-4 d-flex align-items-center justify-content-center mb-3 mb-md-0 me-md-auto text-decoration-none" mb-checked="1" data-tip="">
+                    <p class="lead text-muted">Contact</p>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
