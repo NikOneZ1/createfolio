@@ -20,7 +20,21 @@ CLOUDINARY_STORAGE = {
 EMAIL_HOST_USER = "Addres of the mail from which messages will be sent"
 EMAIL_HOST_PASSWORD = "Password of the mail from which messages will be sent"
 ```
+# How to run project with react frontend
+Install node.js and npm/yarn
+
+Run commands:
+```
+cd portfolio_frontend
+yarn install
+yarn build
+```
+Change settings.py
+```
+REACT_FRONTEND = True
+```
 # Technologies used
 - Python 3.10.1
 - Django 4.0
 - Django REST Framework 3.12.4
+- React.js
