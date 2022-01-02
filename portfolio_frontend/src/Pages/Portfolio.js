@@ -100,6 +100,27 @@ const Portfolio = () => {
                 </div>
             </div>
 
+            <div className="row">
+                <div className="mx-auto d-block col-xs-10 col-sm-10 col-md-10 col-lg-8">
+                    <hr/>
+                    <div className="row">
+                        <div href="/" class="text-end col-md-4 d-flex align-items-center justify-content-center mb-3 mb-md-0 me-md-auto" mb-checked="1" data-tip="">
+                            <Link to='/' style={{ textDecoration: 'none' }}>
+                                <p className="text-muted">Home</p>
+                            </Link>
+                        </div>
+                        <div href="/" className="col-md-4 d-flex align-items-center justify-content-center mb-3 mb-md-0 me-md-auto" mb-checked="1" data-tip="">
+                            <Link to='/' style={{ textDecoration: 'none' }}>
+                                <h3 className="header2 text-muted">CREATEFOLIO</h3>
+                            </Link>
+                        </div>
+                        <a href="mailto:nikita.verba18052004@gmail.com" className="col-md-4 d-flex align-items-center justify-content-center mb-3 mb-md-0 me-md-auto text-decoration-none" mb-checked="1" data-tip="">
+                            <p class="text-muted">Contact</p>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
         </div>
     )
 }
