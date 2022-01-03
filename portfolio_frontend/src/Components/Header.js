@@ -16,8 +16,8 @@ export default class Header extends Component {
                         </Link>
 
                         <div className="col-md-3 text-end">
-                            <Link to='/portfolio/nikonez1' style={{ textDecoration: 'none' }} className="nav-element me-5">Login</Link>
-                            <a href="#" className="nav-element ml-5">Sign-up</a>
+                            <Link to='/login' style={{ textDecoration: 'none' }} className="nav-element me-5">Log in</Link>
+                            <a href="#" className="nav-element ml-5">Sign up</a>
                         </div>
                     </header>
                 </div>
