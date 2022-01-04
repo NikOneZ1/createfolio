@@ -80,6 +80,10 @@ html {
   display: inline;
 }
 
+.alert-p {
+  color: #842029;
+}
+
 p {
   font-family: 'Nunito';
   font-style: normal;

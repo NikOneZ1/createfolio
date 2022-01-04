@@ -1,9 +1,26 @@
-import React, { Component } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import logout from "../Utils/logout";
 
-export default class Header extends Component {
-    render() {
+export default function Header () {
+        const [authorized, setAuthorized] = useState(false);
+
+        useEffect(() => {
+            if(localStorage.getItem("user")){
+                console.log(localStorage.getItem("user"));
+                setAuthorized(true);
+            }
+            else{
+                setAuthorized(false);
+            }
+        }, []);
+
+        const Logout = () => {
+            logout(); 
+            setAuthorized(false);
+        }
+
         return (
             <div className='App'>
                 <div className="container">
@@ -16,12 +33,13 @@ export default class Header extends Component {
                         </Link>
 
                         <div className="col-md-3 text-end">
-                            <Link to='/login' style={{ textDecoration: 'none' }} className="nav-element me-5">Log in</Link>
-                            <a href="#" className="nav-element ml-5">Sign up</a>
+                            {!authorized && <Link to='/login' style={{ textDecoration: 'none' }} className="nav-element me-5">Login</Link>}
+                            {!authorized && <a href="#" className="nav-element ml-5">Signup</a>}
+                            {authorized && <Link to='/' style={{ textDecoration: 'none' }} className="nav-element me-5">Profile</Link>}
+                            {authorized && <a href='#' onClick={() => Logout()} className="nav-element ml-5">Logout</a>}
                         </div>
                     </header>
                 </div>
             </div>
         )
-    }
 }

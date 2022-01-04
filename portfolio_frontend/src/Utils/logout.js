@@ -1,5 +1,5 @@
 import axios from 'axios';
 
-export function logout() {
+export default function logout() {
     localStorage.removeItem("user");
 }
