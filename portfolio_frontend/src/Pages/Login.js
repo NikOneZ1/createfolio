@@ -12,7 +12,10 @@ export default function Login () {
             password: "",
         }
     })
-    const [login_failed, setLoginFailed] = useState(false);
+
+    const [username_error, setUsernameError] = useState(false);
+    const [password_error, setPasswordError] = useState(false);
+    const [invalid_data, setInvalidData] = useState(false);
 
     const changeInputLogin = event => {
         event.persist()
@@ -28,10 +31,28 @@ export default function Login () {
         event.preventDefault();
         const response = () => {
             login_service(login.username, login.password).then((resp) => {
-                if(resp){
+                if(resp[0]){
                     navigate('/');
                 }
-                setLoginFailed(true);
+
+                if(resp[2]==401)
+                {
+                    setInvalidData(true);
+                }
+
+                try{
+                    setUsernameError(resp[1]["username"]);
+                }
+                catch(err){
+                    setUsernameError(false);
+                }
+
+                try{
+                    setPasswordError(resp[1]["password"]);
+                }
+                catch(err){
+                    setPasswordError(false);
+                }
             });
         };
         response();
@@ -42,9 +63,11 @@ export default function Login () {
             <Header/>
             <div className="row text-center">
                 <div className="mx-auto d-block col-xs-10 col-sm-10 col-md-10 col-lg-8">
-                    {login_failed && <div className="alert"><p className="alert-p">Wrong username or password. Please, input correct data.</p></div>}
                     <form onSubmit={Submit}>
+                        {invalid_data && <p className="error-p">Wrong username or password.</p>}
+                        {username_error && <label className="error-message">{username_error}</label>}
                         <p><input placeholder="Username" type="username" id="username" name="username" value={login.username} onChange={changeInputLogin}/></p>
+                        {password_error && <label className="error-message">{password_error}</label>}
                         <p><input placeholder="Password" type="password" id="password" name="password" value={login.password} onChange={changeInputLogin}/></p>
                         <input className="btn btn-outline-light" type="submit" value="Log in"/>
                     </form>

@@ -3,10 +3,13 @@ import axios from 'axios';
 export default function registration_service(email, username, password) {
     return axios.post('auth/users/', {email, username, password}).then(response => {
         if(response.status) {
-            return true;
+            return [true];
         }
-        return false;
+        return [false];
     }).catch(error => {
-        return false;
+        if(error.response){
+            return [false, error.response.data]
+        }
+        return [false];
     })
 };

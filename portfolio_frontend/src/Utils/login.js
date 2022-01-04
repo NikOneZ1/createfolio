@@ -5,8 +5,11 @@ export default function login_service(username, password){
         if(response.data.access) {
             localStorage.setItem("user", JSON.stringify(response.data));
         }
-        return response.data;
+        return [response.data];
     }).catch(error => {
-        return false;
+        if(error.response){
+            return [false, error.response.data, error.response.status]
+        }
+        return [false];
     });
 }

@@ -80,7 +80,12 @@ html {
   display: inline;
 }
 
-.alert-p {
+.error-p {
+  color: #842029;
+  font-size: 20px;
+}
+
+.error-message {
   color: #842029;
 }
 

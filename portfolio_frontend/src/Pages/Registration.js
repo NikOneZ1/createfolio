@@ -14,7 +14,9 @@ export default function Registration() {
         }
     })
     
-    const [registration_failed, setRegistrationFailed] = useState(false);
+    const [email_error, setEmailError] = useState(false);
+    const [username_error, setUsernameError] = useState(false);
+    const [password_error, setPasswordError] = useState(false);
 
     const changeRegistrationInput = event => {
         event.persist()
@@ -30,10 +32,29 @@ export default function Registration() {
         event.preventDefault();
         const response = () => {
             registration_service(registration.email, registration.username, registration.password).then((resp) => {
-                if(resp){
+                if(resp[0]){
                     navigate('/login');
                 }
-                setRegistrationFailed(true);
+                try{
+                    setEmailError(resp[1].email);
+                }
+                catch(err){
+                    setEmailError(false);
+                }
+
+                try{
+                    setUsernameError(resp[1]["username"]);
+                }
+                catch(err){
+                    setUsernameError(false);
+                }
+
+                try{
+                    setPasswordError(resp[1]["password"]);
+                }
+                catch(err){
+                    setPasswordError(false);
+                }
             });
         };
         response();
@@ -44,10 +65,12 @@ export default function Registration() {
         <Header/>
         <div className="row text-center">
             <div className="mx-auto d-block col-xs-10 col-sm-10 col-md-10 col-lg-8">
-                    {registration_failed && <div className="alert"><p className="alert-p">Wrong data. Please, input correct data.</p></div>}
                     <form onSubmit={Submit}>
-                        <p><input placeholder="Email" type="email" id="email" name="email" value={registration.email} onChange={changeRegistrationInput}/></p>
-                        <p><input placeholder="Username" type="username" id="username" name="username" value={registration.username} onChange={changeRegistrationInput}/></p>
+                        {email_error && <label className="error-message">{email_error}</label>}                       
+                        <p><input title="error" placeholder="Email" type="text" id="email" name="email" value={registration.email} onChange={changeRegistrationInput}/></p>
+                        {username_error && <label className="error-message">{username_error}</label>}
+                        <p><input placeholder="Username" type="text" id="username" name="username" value={registration.username} onChange={changeRegistrationInput}/></p>
+                        {password_error && <label className="error-message">{password_error}</label>}
                         <p><input placeholder="Password" type="password" id="password" name="password" value={registration.password} onChange={changeRegistrationInput}/></p>
                         <input className="btn btn-outline-light" type="submit" value="Sign up"/>
                     </form>
