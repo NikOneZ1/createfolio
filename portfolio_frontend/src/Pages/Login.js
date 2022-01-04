@@ -44,8 +44,8 @@ export default function Login () {
                 <div className="mx-auto d-block col-xs-10 col-sm-10 col-md-10 col-lg-8">
                     {login_failed && <div className="alert"><p className="alert-p">Wrong username or password. Please, input correct data.</p></div>}
                     <form onSubmit={Submit}>
-                        <p>Username: <input type="username" id="username" name="username" value={login.username} onChange={changeInputLogin}/></p>
-                        <p>Password: <input type="password" id="password" name="password" value={login.password} onChange={changeInputLogin}/></p>
+                        <p><input placeholder="Username" type="username" id="username" name="username" value={login.username} onChange={changeInputLogin}/></p>
+                        <p><input placeholder="Password" type="password" id="password" name="password" value={login.password} onChange={changeInputLogin}/></p>
                         <input className="btn btn-outline-light" type="submit" value="Log in"/>
                     </form>
                 </div>
