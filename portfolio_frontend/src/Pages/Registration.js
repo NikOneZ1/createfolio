@@ -63,10 +63,11 @@ export default function Registration() {
     return (
         <div>
         <Header/>
-        <div className="row text-center">
-            <div className="mx-auto d-block col-xs-10 col-sm-10 col-md-10 col-lg-8">
+            <div className="row text-center">
+                <div className="mx-auto d-block col-xs-10 col-sm-10 col-md-10 col-lg-8">
+                    <h1 className="header1 text-center">Signup</h1>
                     <form onSubmit={Submit}>
-                        {email_error && <label className="error-message">{email_error}</label>}                       
+                    {email_error && <label className="error-message">{email_error}</label>}                       
                         <p><input title="error" placeholder="Email" type="text" id="email" name="email" value={registration.email} onChange={changeRegistrationInput}/></p>
                         {username_error && <label className="error-message">{username_error}</label>}
                         <p><input placeholder="Username" type="text" id="username" name="username" value={registration.username} onChange={changeRegistrationInput}/></p>

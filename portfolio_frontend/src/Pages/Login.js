@@ -63,6 +63,7 @@ export default function Login () {
             <Header/>
             <div className="row text-center">
                 <div className="mx-auto d-block col-xs-10 col-sm-10 col-md-10 col-lg-8">
+                    <h1 className="header1 text-center">Login</h1>
                     <form onSubmit={Submit}>
                         {invalid_data && <p className="error-p">Wrong username or password.</p>}
                         {username_error && <label className="error-message">{username_error}</label>}
