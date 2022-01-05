@@ -33,9 +33,9 @@ export default function Header () {
 
                         <div className="col-md-3 text-end">
                             {!authorized && <Link to='/login' style={{ textDecoration: 'none' }} className="nav-element me-5">Login</Link>}
-                            {!authorized && <Link to='/registration' style={{ textDecoration: 'none' }} className="nav-element me-5">Sign up</Link>}
-                            {authorized && <Link to='/' style={{ textDecoration: 'none' }} className="nav-element me-5">Profile</Link>}
-                            {authorized && <a href='#' onClick={() => Logout()} className="nav-element ml-5">Logout</a>}
+                            {!authorized && <Link to='/registration' style={{ textDecoration: 'none' }} className="nav-element me-5">Signup</Link>}
+                            {authorized && <Link to='/profile' style={{ textDecoration: 'none' }} className="nav-element me-5">Profile</Link>}
+                            {authorized && <Link to='/login' style={{ textDecoration: 'none' }} onClick={() => Logout()} className="nav-element ml-5">Logout</Link>}
                         </div>
                     </header>
                 </div>
