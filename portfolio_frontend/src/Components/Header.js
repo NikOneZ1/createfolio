@@ -1,9 +1,25 @@
-import React, { Component } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import logout_service from "../Utils/logout";
 
-export default class Header extends Component {
-    render() {
+export default function Header () {
+        const [authorized, setAuthorized] = useState(false);
+
+        useEffect(() => {
+            if(localStorage.getItem("user")){
+                setAuthorized(true);
+            }
+            else{
+                setAuthorized(false);
+            }
+        }, []);
+
+        const Logout = () => {
+            logout_service(); 
+            setAuthorized(false);
+        }
+
         return (
             <div className='App'>
                 <div className="container">
@@ -16,12 +32,13 @@ export default class Header extends Component {
                         </Link>
 
                         <div className="col-md-3 text-end">
-                            <Link to='/portfolio/nikonez1' style={{ textDecoration: 'none' }} className="nav-element me-5">Login</Link>
-                            <a href="#" className="nav-element ml-5">Sign-up</a>
+                            {!authorized && <Link to='/login' style={{ textDecoration: 'none' }} className="nav-element me-5">Login</Link>}
+                            {!authorized && <Link to='/registration' style={{ textDecoration: 'none' }} className="nav-element me-5">Signup</Link>}
+                            {authorized && <Link to='/profile' style={{ textDecoration: 'none' }} className="nav-element me-5">Profile</Link>}
+                            {authorized && <Link to='/login' style={{ textDecoration: 'none' }} onClick={() => Logout()} className="nav-element ml-5">Logout</Link>}
                         </div>
                     </header>
                 </div>
             </div>
         )
-    }
 }

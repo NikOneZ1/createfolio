@@ -80,6 +80,15 @@ html {
   display: inline;
 }
 
+.error-p {
+  color: #842029;
+  font-size: 20px;
+}
+
+.error-message {
+  color: #842029;
+}
+
 p {
   font-family: 'Nunito';
   font-style: normal;
@@ -92,4 +101,12 @@ p {
 
 a {
   text-decoration: none;
+}
+
+input {
+  margin: 0 0 20px;
+  padding: 8px 12px 10px 12px;
+  border: 1px solid rgba(0,0,0,.5);
+  background: #313131;
+  color: #FFFFFF;
 }

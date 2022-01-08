@@ -28,7 +28,7 @@ DEBUG = bool(os.environ.get('DJANGO_DEBUG', True))
 ALLOWED_HOSTS = ['createfolio.herokuapp.com', '127.0.0.1', 'localhost']
 
 # Switch to turn on/off React frontend
-REACT_FRONTEND = False
+REACT_FRONTEND = bool(os.environ.get('REACT_FRONTEND', False))
 
 
 # Application definition
